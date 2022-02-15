@@ -5,7 +5,7 @@
                 v-for="(letter, ind) in row"
                 :key="ind"
                 @click="onButtonClick(letter)"
-                :class="usedKeys.find((x) => x == letter) ? 'gray' : ''"
+                :class="keyClass(letter)"
             >
                 {{ letter }}
             </button>
@@ -42,6 +42,17 @@ export default {
                 this.$emit("click", letter);
             }
         },
+        keyClass(key) {
+            if (this.validKeys.find((x) => x == key)) {
+                return "green";
+            } else if (this.usedKeys.find((x) => x == key)) {
+                return "gray";
+            }
+            return "";
+        },
+        clearKeys() {
+            this.usedKeys = [];
+        },
     },
 };
 </script>
@@ -57,6 +68,7 @@ export default {
     justify-content: space-evenly;
     align-items: center;
     padding: 1rem;
+    gap: 0.5rem;
 }
 
 .keyboardRow {
@@ -87,11 +99,11 @@ button:active {
     transform: translateY(-3%);
 }
 
-.gray {
-    background-color: #ddd;
+.green:hover {
+    transform: none !important;
 }
 
 .gray:hover {
-    transform: none;
+    transform: none !important;
 }
 </style>
