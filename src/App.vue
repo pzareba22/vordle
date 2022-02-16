@@ -82,7 +82,7 @@ export default {
                 currWord += this.letters[this.currentRow][i];
             }
 
-            //TODO - Odkomentować
+            // Enable checking if the word is in the dictionary
 
             // if (!wordList.find((x) => x === currWord)) {
             //     window.alert("Word is not on the wordlist :c");
