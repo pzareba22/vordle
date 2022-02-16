@@ -26,7 +26,7 @@ export default {
         };
     },
     emits: ["click"],
-    props: ["enabled", "validKeys"],
+    props: ["enabled", "yellowKeys", "greenKeys", "grayKeys"],
     methods: {
         onButtonClick(letter) {
             if (letter === "del" || letter === "enter") {
@@ -34,21 +34,24 @@ export default {
                 if (letter === "del") {
                     this.usedKeys.pop();
                 }
-            } else if (
-                !this.usedKeys.find((x) => x == letter) &&
-                this.enabled
-            ) {
+            } else if (this.enabled) {
                 this.usedKeys.push(letter);
                 this.$emit("click", letter);
+                console.log(this.usedKeys);
             }
         },
         keyClass(key) {
-            if (this.validKeys.find((x) => x == key)) {
-                return "green";
+            let res = "";
+            if (this.greenKeys.find((x) => x == key)) {
+                res = "green";
+            } else if (this.yellowKeys.find((x) => x == key)) {
+                res = "yellow";
+            } else if (this.grayKeys.find((x) => x == key)) {
+                res = "gray2 noHover";
             } else if (this.usedKeys.find((x) => x == key)) {
-                return "gray";
+                res = "gray";
             }
-            return "";
+            return res;
         },
         clearKeys() {
             this.usedKeys = [];
@@ -99,11 +102,7 @@ button:active {
     transform: translateY(-3%);
 }
 
-.green:hover {
-    transform: none !important;
-}
-
-.gray:hover {
+.noHover {
     transform: none !important;
 }
 </style>

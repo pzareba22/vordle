@@ -17,7 +17,9 @@
         <Keyboard
             @click="updateLetter"
             :enabled="currentCol < 5"
-            :validKeys="validKeys"
+            :greenKeys="greenKeys"
+            :yellowKeys="yellowKeys"
+            :grayKeys="grayKeys"
             ref="keyboard"
         />
     </div>
@@ -28,7 +30,9 @@
 ##TODO:
     - [x] Sprawdzenie czy submitowane słowo jest poprawne
     - [x] Sprawdzenie liter submitowanego słowa
-    - [ ] Przekazanie 'żółtych' i 'zielonych' liter
+    - [x] Przekazanie 'żółtych' i 'zielonych' liter
+    - [ ] Komunikaty o wygranej i przegranej
+    - [ ] Help
     - [ ] Optymalizacja szukania słów w wordliście
 */
 
@@ -43,7 +47,9 @@ export default {
             colors: Array.from(Array(6), () => new Array(5).fill("")),
             currentRow: 0,
             currentCol: 0,
-            validKeys: [],
+            greenKeys: [],
+            yellowKeys: [],
+            grayKeys: [],
             word: "",
         };
     },
@@ -84,19 +90,18 @@ export default {
             // }
             console.log(`Submitted word is: ${currWord}`);
 
-            const yellowLetters = [];
-            const greenLetters = [];
             for (let i = 0; i < 5; i++) {
                 if (currWord[i] === this.word[i]) {
                     this.colors[this.currentRow][i] = "green";
-                    greenLetters.push(currWord[i]);
+                    this.greenKeys.push(currWord[i]);
                 } else if (this.word.search(currWord[i]) != -1) {
                     this.colors[this.currentRow][i] = "yellow";
-                    yellowLetters.push(currWord[i]);
+                    this.yellowKeys.push(currWord[i]);
+                } else {
+                    this.colors[this.currentRow][i] = "gray";
+                    this.grayKeys.push(currWord[i]);
                 }
             }
-            console.log(yellowLetters);
-            console.log(greenLetters);
             this.currentRow += 1;
             this.currentCol = 0;
             this.$refs.keyboard.clearKeys();
@@ -189,6 +194,10 @@ export default {
 <style>
 .gray {
     background-color: #ddd !important;
+}
+
+.gray2 {
+    background-color: rgb(128, 125, 125) !important;
 }
 
 .green {

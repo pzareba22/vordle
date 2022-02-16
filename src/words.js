@@ -1,3 +1,3 @@
-const wordList = ["humor", "tenis", "lover"];
+const wordList = ["humor", "tenis", "lover", "honor"];
 
 export default wordList;
